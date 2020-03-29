@@ -41,6 +41,7 @@ sigmaLog = math.exp(2*mu + (sigma**2))*(math.exp(sigma**2)-1)
 
 print muLog, sigmaLog
 
+#for more info, see: https://docs.python.org/2/library/random.html
 randUnifInteger = random.randint(0,10)
 randUnifFloat = random.uniform(0,1)
 
