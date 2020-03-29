@@ -1,4 +1,5 @@
-#there are three types: integers, floats and complex
+#demonstrates number types: integers, floats and complex
+#demonstrates randomization and random number generation
 
 x = 24    # int
 y = 24.5  # float
