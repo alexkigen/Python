@@ -1,8 +1,10 @@
 #demonstrate use of lists, tuples and sets in python
 
 #lists: ordered and changeable
-#tuples:
-#sets:
+#tuples: ordered and immutable
+#sets: unordered and unindexed
+#in addition to creation methods shown below, tuple(), list() and set() constructors can be used to create tuples, lists and sets
+
 
 a = "Rwanda"
 b = "Burundi"
@@ -105,13 +107,47 @@ countryListCopied.extend(cpiList)
 print countryListCopied
 
 #other methods
-x = countryList.sort()
-y = countryList.reverse()
-print x
-print y
+#NOTE - sort() and reverse() methods do not return an object and work on the original object
+
+countryList.sort() #sort ascending:
+print countryList
+
+countryList.sort(reverse = True) #sort descending
+print countryList
+
+countryList.reverse() #reverse order - first to last, last to first, etc.
+print countryList
+
+#count number of times an item appears in the list
 print countryList.count("Kenya")
 
 
+#TUPLES
+#written in round brackets
+#immutable - cannot be altered
+#most other things work for TUPLES as they do for LISTS e.g. access methods
+#alteration methods don't work
 
+countryTuple = (a, b, c, d, e, f)
 
+print countryTuple
 
+#countryTuple[2] = "Nigeria" #error
+#countryTuple.sort()         #error
+
+#SETS
+#unordered and unindexed
+#we cannot access them by indexing
+#once a set is created, you cannot modify its items except to add or remove new items
+#other operations work on it though, as illustrated below
+
+countrySet = {a, b, c, d, e, f}
+countrySet.add("Somalia")
+countrySet.remove("Nigeria")
+
+print countrySet
+
+#del function can be used to delete entire sets, lists and/or tuples
+del countrySet
+del countryTuple
+del countryList
