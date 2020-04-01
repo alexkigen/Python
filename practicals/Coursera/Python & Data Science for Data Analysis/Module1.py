@@ -1,3 +1,5 @@
+#this uses russell 2000 and s&p 500 instead of facebook and microsoft
+
 import pandas as pd
 
 #import data
