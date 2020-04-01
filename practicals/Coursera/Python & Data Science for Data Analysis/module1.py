@@ -1,5 +1,6 @@
 #this uses russell 2000 and s&p 500 instead of facebook and microsoft
-
+#http://localhost:8888/notebooks/module1.ipynb
+    
 import pandas as pd
 
 #import data
