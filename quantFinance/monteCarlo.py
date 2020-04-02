@@ -1,6 +1,7 @@
 import random
 import math
 
+
 #function to generate a random z
 def z_score(mu, sigma):
     a = random.gauss(mu, sigma)
@@ -27,10 +28,27 @@ def OptionPrice (currentVal, strike, T, vol, riskFree, noRuns):
     
     return optionPrice, rollingPayoffSum
 
+#define inputs
+currentVal = 100
+riskyReturn = 0.07
+riskFree = 0.04
+strike = 100
+vol = 0.15
+T = 0.5
 
-price = OptionPrice(100, 100, 0.5, 0.15, 0.04, 10000)[0]
+callPrice = OptionPrice(currentVal, strike, T, vol, riskFree, 10000)[0]
+putPrice = callPrice + strike * math.exp(-riskFree * T) - currentVal
 
-print ("Option price is " + str(price))
+print ("Call ption price is " + str(callPrice))
+print ("Put option price is " + str(putPrice))
 
 
-    
+#suppose we anticipate this stock to grow at an annual rate of 5% (risk world)
+#if we went long a call option:
+expectedVal = currentVal * math.exp(riskyReturn * T)
+
+profit = expectedVal - strike - callPrice
+leverage = profit/callPrice
+
+print ("profit is " + str(profit))
+print ("'leverage' is " + str(leverage))
