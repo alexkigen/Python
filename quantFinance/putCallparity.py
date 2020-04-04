@@ -1,6 +1,6 @@
 import math
 
-#execute option pricing code to get optionPrice input (reads from another file)
+#execute option pricing code to get optionPrice input
 
 exec(open("optionPricing.py").read())
 
@@ -12,15 +12,23 @@ def putCallparity(optionPrice, currentVal, strike, riskFree, optionType):
         
         callPrice = optionPrice
         putPrice = callPrice - currentVal + strike * math.exp(-riskFree * T)
-        putPrice = max(putPrice, 0)
+        putPrice = round(max(putPrice, 0),4)
+        optionReturn = "Put"
         
-        return putPrice
+        return optionReturn, putPrice
     
     else:
         
         putPrice = optionPrice
         callPrice = putPrice + currentVal - strike * math.exp(-riskFree * T)
-        callPrice = max(callPrice, 0)
+        callPrice = round(max(callPrice, 0),4)
+        optionReturn = "Call"
+
+        return optionReturn, callPrice
 
 
-print(putCallparity(callPrice,currentVal, strike, riskFree, "Call"))
+parityPrice = putCallparity(callPrice,currentVal, strike, riskFree, "Call")
+
+print (callPrice)
+print (parityPrice) #displays the option type (if call supplied then put displayed) and price
+
