@@ -12,7 +12,7 @@ print (sp500['LogReturn'])
 
 print (sp500.describe())
 
-#sp500['LogReturn'].hist(bins = 50)
+sp500['LogReturn'].hist(bins = 50)
 
 
 #we can use the SCIPY package to get the CDF and PDFs of the distribution of sp500 daily stock returns
@@ -20,14 +20,14 @@ print (sp500.describe())
 from scipy.stats import norm
 
 densityFunc = pd.DataFrame()
-densityFunc['x'] = np.arange(-5,5,0.0001)
+densityFunc['x'] = np.arange(sp500['LogReturn'].min(),sp500['LogReturn'].max(),0.0001)
 
-densityFunc['PDF'] = norm.pdf(densityFunc['x'], 0, 1)
-densityFunc['CDF'] = norm.cdf(densityFunc['x'], 0, 1)
+densityFunc['PDF'] = norm.pdf(densityFunc['x'], muDaily, sigmaDaily)
+#densityFunc['CDF'] = norm.cdf(densityFunc['x'], 0, 1)
 
-#densityFunc[['PDF', 'CDF']].plot()
+#densityFunc[['PDF']].plot()
 
-#plt.plot(densityFunc['x'], densityFunc[['PDF', 'CDF']])
+plt.plot(densityFunc['x'], densityFunc[['PDF']])
 
 
 #what is the probability that sp 500 drops more than 40% in a year?
