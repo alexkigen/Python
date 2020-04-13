@@ -11,7 +11,6 @@ for i in range(numberOfPlayers):
 print ("Player names and orders are as follows: ", playerNames)
 
 #hot potato engine:
-#pass potato each 2 seconds; randomly stop anywhere before 30 seconds
 
 #method A - base Python
 time = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
@@ -32,5 +31,6 @@ while countRemain > 1:
     #print (losingPlayerIndex)
     losingPlayer = playersLeft[losingPlayerIndex]
     playersLeft.remove(losingPlayer)
+    print ("Player out: ", losingPlayer)
     print ("Players left: ", playersLeft)
     countRemain -= 1
