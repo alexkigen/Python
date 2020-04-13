@@ -34,3 +34,5 @@ while countRemain > 1:
     print ("Player out: ", losingPlayer)
     print ("Players left: ", playersLeft)
     countRemain -= 1
+
+print ("Player ", playersLeft[0], " won!")
