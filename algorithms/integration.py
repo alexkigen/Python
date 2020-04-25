@@ -1,5 +1,5 @@
 
-#simple algorithm to integrate Y = a + b*X^c
+#simple NUMERICAL algorithm to integrate Y = a + b*X^c
 
 def integrate (a, b, c, lowerX, upperX, divisions):
 
