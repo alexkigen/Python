@@ -127,44 +127,91 @@ for n, stock in enumerate(plotData):
 
 curiousList = ['COWN', 'CPG', 'VNOM', 'KOS', 'HLX']
 
-def plot_stockList(stockList, days):
+#function to visualize a list of stocks using volume, adjusted close, open, high, etc.
+#default period is 90 days and default field called is adjusted close
+
+def plot_stockList(stockList, period = 90, label = 'adjclose'):
     
-    userInput = bool(input("Want to use your own input? 1 for Yes, 0 for No: ")) 
+    userInput = int(input("Want to use your own input? 1 for Yes, 0 for No: ")) 
     print (userInput)
     
-    if (userInput == True):
+    if (userInput == 1):
         
         stocks = []
         n = int(input("Enter number of stocks to analyze: "))
-        print(n)
+        print("You will enter ", n, " stock tickers")
 
         for i in range(n):
             ticker = str(input("Enter Tickers for Stocks: "))
             stocks.append(ticker)
 
-        print (stocks)
+        print ("You entered the following stocks: ", stocks)
         
     else:
         
         stocks = curiousList
 
-    field = 'adjclose'
-    stockData = pd.DataFrame(get_data("^GSPC")[field]).tail(days)
+    par = len(stocks)
+    
+    field = label
+    stockData = pd.DataFrame(get_data("^GSPC")[field]).tail(period)
 
-    for stock in range(n):
-        data = pd.DataFrame(get_data(stocks[stock])[field]).tail(days)
+    for stock in range(par):
+        data = pd.DataFrame(get_data(stocks[stock])[field]).tail(period)
         stockData = stockData.join(data, how = 'inner', rsuffix = stocks[stock])
 
-    stockData = stockData.drop(columns = ['adjclose'])
+    stockData = stockData.drop(columns = [field])
+    
+    xlab = range(period)
 
     plt.figure(figsize=(20,10))
 
     for n, stock in enumerate(stockData):
-        plt.subplot(3, 3, n + 1)
+        plt.subplot(round(par/2), par-round(par/2), n + 1)
+        plt.suptitle("Now plotting: " + field + " over the last " + str(period) + " days", size = 16)
         plt.plot(xlab, stockData[stock])
         plt.title(stocks[n])
+        
+    print ("Reached End Successfully")
 
+   
+#technical indicators
+#the function below takes in a list of stocks (could be one) and returns OBV results and plots showing OBV 
 
+def OnBalanceVolume (stocks, period):
+    
+    #initialize dataframes and other parameters
+    stockData = pd.DataFrame(get_data("^GSPC")[['adjclose', 'volume']]).tail(period)
+    OBV_Data = pd.DataFrame()
+    par = len(stocks)
+    
+    #get price and volume data   
+    for stock in range(par):
+        data = pd.DataFrame(get_data(stocks[stock])[['adjclose', 'volume']]).tail(period)
+        stockData = stockData.join(data, how = 'inner', rsuffix = stocks[stock])
 
-plot_stockList(curiousList, 90)
+    stockData = stockData.drop(columns = ['adjclose', 'volume'])
+
+    for stock in range(par):
+        stockData['priceChange_'+stocks[stock]] = stockData['adjclose'+stocks[stock]].pct_change().fillna(0)
+        stockData['volDirection_'+stocks[stock]] = (abs(stockData['priceChange_'+stocks[stock]])/stockData['priceChange_'+stocks[stock]])*stockData['volume'+stocks[stock]]
+        OBV_Data['OBV_'+stocks[stock]] = stockData['volDirection_'+stocks[stock]].cumsum().fillna(0)
+    
+    plotOBV = plt.figure(figsize=(20,10))
+
+    for n, stock in enumerate(OBV_Data):
+        plt.subplot(round(par/2), par-round(par/2), n + 1)
+        plt.suptitle("Now plotting OBV over the last " + str(period) + " days", size = 16)
+        plt.plot(xlab, OBV_Data[stock])
+        plt.title(stocks[n])
+    
+    print ("OBV Reached End Successfully")
+    #plotOBV.show()
+    
+    return (stockData, OBV_Data, plotOBV)
+
+plot_stockList(curiousList, 360, 'adjclose')
+plot_stockList(curiousList, 90, 'adjclose') #plot adjusted close over 90 days
+plot_stockList(curiousList, 90, 'volume') #plot trade volume over 90 days
+OnBalanceVolume(stocks = curiousList, period = 90) #assess on balance volume over the last 90 days
 
