@@ -1,0 +1,64 @@
+import matplotlib.pyplot as plt
+import requests
+import io
+
+
+urlcovid = "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv"
+downloadcovid = requests.get(urlcovid).content
+covid = pd.read_csv(io.StringIO(downloadcovid.decode('utf-8')))
+
+covid.head()
+covid.tail()
+
+covid_htd = covid[covid.date == "2022-10-01"]
+covid_bop = covid[covid.date == "2021-12-31"]
+
+bop = sum(covid_bop["deaths"])
+htd = sum(covid_htd["deaths"])
+ytd = htd - bop
+
+print('started with: ' + str(bop), 'now at: ' + str(htd), 'so ytd deaths are: ' + str(ytd))
+
+covid_htd2 = covid[covid.date.isin(["2022-10-01"])]
+covid_bop2 = covid[covid.date.isin(["2021-12-31"])]
+bop2 = sum(covid_bop2["deaths"])
+htd2 = sum(covid_htd2["deaths"])
+ytd2 = htd2 - bop2
+print('started with: ' + str(bop2), 'now at: ' + str(htd2), 'so ytd deaths are: ' + str(ytd2))
+
+covid_bop2 = covid[covid.date.isin(["2021-12-31"])]
+covid_q1 = covid[covid.date.isin(["2022-03-31"])]
+covid_q2 = covid[covid.date.isin(["2022-06-30"])]
+covid_q3 = covid[covid.date.isin(["2022-09-30"])]
+bop_yr = sum(covid_bop2["deaths"])
+q1_htd = sum(covid_q1["deaths"])
+q2_htd = sum(covid_q2["deaths"])
+q3_htd = sum(covid_q3["deaths"])
+q1_ytd = q1_htd - bop_yr
+q2_ytd = q2_htd - bop_yr
+q3_ytd = q3_htd - bop_yr
+q2_change = q2_ytd - q1_ytd
+q3_change = q3_ytd - q2_ytd
+print('HTD deaths at the beginning of the year were: ' + str(bop2), 'and this is now at: ' + str(q3_htd), 'so ytd deaths are: ' + str(q3_ytd))
+print("Q1 actuals were: " + str(q1_ytd))
+print("Q1 actuals were: " + str(q1_ytd), "Q2 actuals are: " + str(q2_ytd), "or a change of: " + str(q2_change))
+print("Q2 actuals were: " + str(q2_ytd), "Q3 actuals are: " + str(q3_ytd), "or a change of: " + str(q3_change))
+
+print("Our expected q1 claims would have been: " + str(10*q1_ytd*0.0001) + ", or a $$ impact of: " + str(50000*10*0.0001*q1_ytd))
+print("Our expected q2 claims would have been: " + str(10*q2_ytd*0.0001) + ", or a $$ impact of: " + str(50000*10*0.0001*q2_ytd))
+print("Our expected q3 claims would have been: " + str(10*q3_ytd*0.0001) + ", or a $$ impact of: " + str(50000*10*0.0001*q3_ytd))
+
+#aggregate
+
+covidAgg = covid.groupby(["date"]).sum()
+mort = covidAgg['deaths']/covidAgg['cases']
+
+
+print(mort)
+plt.plot(mort)
+
+print(covidAgg)
+
+plt.plot(covidAgg["deaths"])
+
+covidAgg.plot("deaths")
