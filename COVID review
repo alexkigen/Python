@@ -49,14 +49,13 @@ print("Q2 actuals were: " + str(q2_ytd), "Q3 actuals are: " + str(q3_ytd), "or a
 #aggregate
 
 covidAgg = covid.groupby(["date"]).sum()
+plt.plot(covidAgg["deaths"])
+covidAgg.plot("deaths") #quicker
+
+#visualize mortality rate
+
 mort = covidAgg['deaths']/covidAgg['cases']
-
-
 print(mort)
 plt.plot(mort)
 
-print(covidAgg)
 
-plt.plot(covidAgg["deaths"])
-
-covidAgg.plot("deaths")
