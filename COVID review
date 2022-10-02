@@ -44,9 +44,7 @@ print("Q1 actuals were: " + str(q1_ytd))
 print("Q1 actuals were: " + str(q1_ytd), "Q2 actuals are: " + str(q2_ytd), "or a change of: " + str(q2_change))
 print("Q2 actuals were: " + str(q2_ytd), "Q3 actuals are: " + str(q3_ytd), "or a change of: " + str(q3_change))
 
-print("Our expected q1 claims would have been: " + str(10*q1_ytd*0.0001) + ", or a $$ impact of: " + str(50000*10*0.0001*q1_ytd))
-print("Our expected q2 claims would have been: " + str(10*q2_ytd*0.0001) + ", or a $$ impact of: " + str(50000*10*0.0001*q2_ytd))
-print("Our expected q3 claims would have been: " + str(10*q3_ytd*0.0001) + ", or a $$ impact of: " + str(50000*10*0.0001*q3_ytd))
+#removed $$ impact calcs
 
 #aggregate
 
